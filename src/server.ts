@@ -1,4 +1,4 @@
-import "dotenv/config";
+import { config } from "./config.js";
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
@@ -17,12 +17,9 @@ app.get<{
   return { pong: true, hello: name ?? "world" };
 });
 
-// Get port from .env and start server
-const port = Number(process.env.PORT) || 3000;
-
 try {
-  await app.listen({ port, host: "0.0.0.0" });
-  console.log(`Server listening at http://localhost:${port}`);
+  await app.listen({ port: config.port, host: config.host });
+  console.log(`Server listening at http://localhost:${config.port}`);
 } catch (err) {
   app.log.error(err);
   process.exit(1);
